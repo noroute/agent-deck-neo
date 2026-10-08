@@ -1,0 +1,6 @@
+node_modules/
+dist/
+test/out*/
+logs/
+plugin/*/logs/
+preview-*.png

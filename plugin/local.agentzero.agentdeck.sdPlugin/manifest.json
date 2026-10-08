@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "UUID": "local.agentzero.agentdeck",
+  "Name": "Agent Deck Neo",
+  "Version": "0.1.0.0",
+  "Author": "you",
+  "Description": "Live status of every agent-deck session on your Stream Deck Neo. Colour-coded by agent state; press to jump to that session.",
+  "Category": "Agent Deck Neo",
+  "CategoryIcon": "imgs/category",
+  "Icon": "imgs/plugin",
+  "CodePath": "bin/plugin.js",
+  "Nodejs": {
+    "Version": "20",
+    "Debug": "enabled"
+  },
+  "SDKVersion": 3,
+  "Software": {
+    "MinimumVersion": "7.6"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "12"
+    }
+  ],
+  "Actions": [
+    {
+      "UUID": "local.agentzero.agentdeck.session",
+      "Name": "Agent Deck session",
+      "Tooltip": "Shows one agent-deck session. Press to jump there; hold to jump to whichever session needs you most.",
+      "Icon": "imgs/action",
+      "Controllers": [
+        "Keypad"
+      ],
+      "PropertyInspectorPath": "ui/session.html",
+      "UserTitleEnabled": false,
+      "SupportedInMultiActions": false,
+      "States": [
+        {
+          "Image": "imgs/key",
+          "TitleAlignment": "bottom"
+        }
+      ]
+    },
+    {
+      "UUID": "local.agentzero.agentdeck.summary",
+      "Name": "Agent Deck summary",
+      "Tooltip": "Infobar summary: how many sessions need you, are working, or are done.",
+      "Icon": "imgs/action",
+      "Controllers": [
+        "Neo"
+      ],
+      "PropertyInspectorPath": "ui/session.html",
+      "SupportedInMultiActions": false,
+      "States": [
+        {
+          "Image": "imgs/key"
+        }
+      ]
+    }
+  ]
+}

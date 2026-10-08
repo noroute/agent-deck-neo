@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 8px 10px; font: 12px -apple-system, "Helvetica Neue", Arial, sans-serif; color: #d8d8d8; background: transparent; }
+  .row { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+  label { flex: 0 0 96px; color: #9a9a9a; }
+  input[type="text"], input[type="number"] { flex: 1; min-width: 0; background: #3d3d3d; color: #e8e8e8; border: 1px solid #555; border-radius: 3px; padding: 4px 6px; font: inherit; }
+  .hint { margin: -4px 0 12px 104px; color: #7c7c7c; line-height: 1.4; }
+  .legend { margin: 6px 0 0 104px; line-height: 1.7; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; border: 1px solid #555; }
+</style>
+</head>
+<body>
+  <div id="slotRow">
+    <div class="row"><label for="slot">Session #</label><input id="slot" type="number" min="1" max="99" placeholder="auto (key position)" /></div>
+    <p class="hint">Position in the agent-deck list (groups in TUI order). Leave blank to use the key's position (1–8). Use 9–16 on a second page.</p>
+  </div>
+  <div class="row"><label for="terminalApp">Terminal app</label><input id="terminalApp" type="text" placeholder="Ghostty" /></div>
+  <p class="hint">Brought to the front after a press, e.g. Ghostty, iTerm, Terminal, WezTerm, kitty. Leave blank to not switch apps. Applies to all keys.</p>
+  <div class="row"><label for="group">Group</label><input id="group" type="text" placeholder="all groups" /></div>
+  <p class="hint">Only show sessions in this group path (and its subgroups), e.g. Second-Brain.</p>
+  <div class="row"><label for="hideDead">Hide dead</label><input id="hideDead" type="checkbox" /></div>
+  <p class="hint">Skip stopped and errored sessions so live ones get the keys.</p>
+  <div class="row"><label for="profile">Profile</label><input id="profile" type="text" placeholder="default" /></div>
+  <div class="row"><label for="agentDeckPath">agent-deck path</label><input id="agentDeckPath" type="text" placeholder="auto (/opt/homebrew/bin/agent-deck)" /></div>
+  <div class="legend">
+    <div><span class="sw" style="background:#F06AA6"></span>needs you: menu open (blinks)</div>
+    <div><span class="sw" style="background:#E4F29B"></span>working</div>
+    <div><span class="sw" style="background:#7BE39B"></span>waiting, not yet seen</div>
+    <div><span class="sw" style="background:#000"></span>idle / stopped / error</div>
+  </div>
+<script>
+  let ws, uuid, settings = {}, globals = {};
+  const $ = (id) => document.getElementById(id);
+  const send = (o) => ws && ws.readyState === 1 && ws.send(JSON.stringify(o));
+  const TEXT = ["terminalApp", "group", "profile", "agentDeckPath"];
+
+  function render() {
+    $("slot").value = settings.slot ?? "";
+    $("terminalApp").value = globals.terminalApp ?? "Ghostty";
+    for (const k of TEXT.slice(1)) $(k).value = globals[k] ?? "";
+    $("hideDead").checked = !!globals.hideDead;
+  }
+
+  // Stream Deck calls this when the inspector opens.
+  window.connectElgatoStreamDeckSocket = (port, inUUID, registerEvent, info, actionInfo) => {
+    uuid = inUUID;
+    const ai = JSON.parse(actionInfo || "{}");
+    settings = ai.payload?.settings ?? {};
+    if (String(ai.action || "").endsWith(".summary")) $("slotRow").style.display = "none";
+    ws = new WebSocket("ws://127.0.0.1:" + port);
+    ws.onopen = () => {
+      send({ event: registerEvent, uuid });
+      send({ event: "getGlobalSettings", context: uuid });
+    };
+    ws.onmessage = (m) => {
+      const msg = JSON.parse(m.data);
+      if (msg.event === "didReceiveGlobalSettings") { globals = msg.payload.settings ?? {}; render(); }
+      if (msg.event === "didReceiveSettings") { settings = msg.payload.settings ?? {}; render(); }
+    };
+    render();
+  };
+
+  const saveGlobals = () => send({ event: "setGlobalSettings", context: uuid, payload: globals });
+  $("slot").addEventListener("change", () => {
+    const n = parseInt($("slot").value, 10);
+    settings = Number.isInteger(n) && n > 0 ? { ...settings, slot: n } : (({ slot, ...rest }) => rest)(settings);
+    send({ event: "setSettings", context: uuid, payload: settings });
+  });
+  for (const key of TEXT) {
+    $(key).addEventListener("change", () => {
+      globals = { ...globals, [key]: $(key).value.trim() };
+      saveGlobals();
+    });
+  }
+  $("hideDead").addEventListener("change", () => {
+    globals = { ...globals, hideDead: $("hideDead").checked };
+    saveGlobals();
+  });
+</script>
+</body>
+</html>

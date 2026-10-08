@@ -1,0 +1,8 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/layout.json",
+  "id": "agentdeck-infobar",
+  "items": [
+    { "key": "headline", "type": "text", "rect": [6, 2, 220, 26], "font": { "size": 20, "weight": 700 }, "alignment": "center", "color": "#FFFFFF" },
+    { "key": "detail", "type": "text", "rect": [6, 28, 220, 20], "font": { "size": 13, "weight": 400 }, "alignment": "center", "color": "#B8C0CC" }
+  ]
+}

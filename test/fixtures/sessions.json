@@ -1,0 +1,127 @@
+[
+ {
+  "id": "00000000-1700000000",
+  "title": "Auth service",
+  "path": "/tmp/agent-deck-neo-fixture/auth-service",
+  "group": "api",
+  "tool": "claude",
+  "status": "waiting",
+  "substate": "interactive-menu",
+  "tmux_session": "agentdeck_Auth-service_00000000",
+  "archived": false,
+  "last_activity_at": "2026-10-08T10:00:00Z",
+  "viewers": [
+   {
+    "tty": "/dev/ttys001"
+   }
+  ]
+ },
+ {
+  "id": "00000001-1700000001",
+  "title": "Docs site",
+  "path": "/tmp/agent-deck-neo-fixture/docs-site",
+  "group": "web",
+  "tool": "claude",
+  "status": "running",
+  "substate": "running",
+  "tmux_session": "agentdeck_Docs-site_00000001",
+  "archived": false,
+  "last_activity_at": "2026-10-08T11:00:00Z",
+  "viewers": []
+ },
+ {
+  "id": "00000002-1700000002",
+  "title": "Billing",
+  "path": "/tmp/agent-deck-neo-fixture/billing",
+  "group": "api",
+  "tool": "codex",
+  "status": "waiting",
+  "substate": "idle-at-empty-prompt",
+  "tmux_session": "agentdeck_Billing_00000002",
+  "archived": false,
+  "last_activity_at": "2026-10-08T12:00:00Z",
+  "viewers": []
+ },
+ {
+  "id": "00000003-1700000003",
+  "title": "Infra",
+  "path": "/tmp/agent-deck-neo-fixture/infra",
+  "group": "ops",
+  "tool": "claude",
+  "status": "idle",
+  "substate": "idle-at-empty-prompt",
+  "tmux_session": "agentdeck_Infra_00000003",
+  "archived": false,
+  "last_activity_at": "2026-10-08T13:00:00Z",
+  "viewers": []
+ },
+ {
+  "id": "00000004-1700000004",
+  "title": "Mobile app",
+  "path": "/tmp/agent-deck-neo-fixture/mobile-app",
+  "group": "web",
+  "tool": "gemini",
+  "status": "running",
+  "substate": "background-work",
+  "tmux_session": "agentdeck_Mobile-app_00000004",
+  "archived": false,
+  "last_activity_at": "2026-10-08T14:00:00Z",
+  "viewers": []
+ },
+ {
+  "id": "00000005-1700000005",
+  "title": "Migrations",
+  "path": "/tmp/agent-deck-neo-fixture/migrations",
+  "group": "api",
+  "tool": "claude",
+  "status": "error",
+  "substate": "usage-limit",
+  "tmux_session": "agentdeck_Migrations_00000005",
+  "archived": false,
+  "last_activity_at": "2026-10-08T15:00:00Z",
+  "viewers": []
+ },
+ {
+  "id": "00000006-1700000006",
+  "title": "Scratch",
+  "path": "/tmp/agent-deck-neo-fixture/scratch",
+  "group": "ops",
+  "tool": "shell",
+  "status": "stopped",
+  "substate": "",
+  "tmux_session": "agentdeck_Scratch_00000006",
+  "archived": false,
+  "last_activity_at": "2026-10-08T16:00:00Z",
+  "viewers": []
+ },
+ {
+  "id": "00000007-1700000007",
+  "title": "Search",
+  "path": "/tmp/agent-deck-neo-fixture/search",
+  "group": "web",
+  "tool": "claude",
+  "status": "waiting",
+  "substate": "idle-at-empty-prompt",
+  "tmux_session": "agentdeck_Search_00000007",
+  "archived": false,
+  "last_activity_at": "2026-10-08T17:00:00Z",
+  "viewers": [
+   {
+    "tty": "/dev/ttys001"
+   }
+  ]
+ },
+ {
+  "id": "00000008-1700000008",
+  "title": "Archived",
+  "path": "/tmp/agent-deck-neo-fixture/archived",
+  "group": "ops",
+  "tool": "claude",
+  "status": "idle",
+  "substate": "",
+  "tmux_session": "agentdeck_Archived_00000008",
+  "archived": true,
+  "last_activity_at": "2026-10-08T18:00:00Z",
+  "viewers": []
+ }
+]

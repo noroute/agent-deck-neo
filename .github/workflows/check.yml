@@ -1,0 +1,34 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          cache: npm
+
+      # The lockfile and the allowScripts field assume npm 12.
+      - run: npm install -g npm@12
+
+      - run: npm ci
+
+      # Build, streamdeck validate, and the mock-host smoke test (it runs against
+      # test/fake-agent-deck.mjs, so no agent-deck or tmux is needed here).
+      - run: npm run check
+
+      # bin/plugin.js is generated but committed, so it must match a fresh build.
+      - name: Committed bundle is up to date
+        run: git diff --exit-code plugin/
